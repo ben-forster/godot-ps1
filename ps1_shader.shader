@@ -14,7 +14,7 @@ uniform float alpha_scissor: hint_range(0.0, 1.0) = 1.0;
  
 void vertex() {
     NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
-    
+
 	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
  
 	float z_orig = VERTEX.z;
