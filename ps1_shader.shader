@@ -1,18 +1,17 @@
-// This is a custom shader for Godot 4.x
-// It uses vertex lighting and skips the vertex transform
-// It also uses specular Schlick GGX and diffuse Lambert wrapping
+// PS1 shader by Ben Forster for Godot 4.x
 
+// Use vertex lighting and skip vertext transform
+// Use specular Schlick GGX and diffuse Lambert wrapping
 shader_type spatial;
 render_mode vertex_lighting, skip_vertex_transform, 
 			specular_schlick_ggx, diffuse_lambert_wrap;
  
-// Define texture inputs
+// Textures
 uniform sampler2D albedo_texture: hint_default_black;
 uniform sampler2D specular_texture: hint_default_black;
 uniform sampler2D emission_texture: hint_default_black;
 
-// Define uniform inputs
-// Amount to jitter vertices (0 = no jitter, 1 = maximum jitter)
+// Amount to jitter vertices (0 = no jitter, 1 = maximum jitter
 uniform float vertex_jitter_amount: hint_range(0.0, 1.0) = 0.5;
 
 // Whether or not to jitter the z coordinate
@@ -22,15 +21,18 @@ uniform bool jitter_z_coordinate = true;
 uniform bool jitter_depth_independent = true;
 
 // Whether or not to use affine texture mapping
+
 uniform bool affine_texture_mapping = true;
 
 // Alpha scissor threshold (0 = fully transparent, 1 = fully opaque)
 uniform float alpha_scissor_threshold: hint_range(0.0, 1.0) = 1.0;
 
-// UV_scale is used for scaling the UV coordinates of the texture
-uniform vec2 uv_scale: hint_range(0.0, 10.0) = vec2(1.0, 1.0);
+// UV_scale_x is used for scaling the U coordinates of the texture
+uniform float uv_scale_x: hint_range(0.0, 10.0) = 1.0;
+
+// UV_scale_y is used for scaling the V coordinates of the texture
+uniform float uv_scale_y: hint_range(0.0, 10.0) = 1.0;
  
-// Vertex function
 void vertex() {
 	// Transform normal vector
     NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
@@ -41,7 +43,7 @@ void vertex() {
 	// Save original z coordiante
 	float z_orig = VERTEX.z;
 
-	// Calculate amount to jitter vertices
+	// Claculate amount to jitter vertices
 	float jitter_amount = (1.0 - vertex_jitter_amount) * min(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y) / 2.0;
  
 	// Jitter vertices based on depth
@@ -63,10 +65,9 @@ void vertex() {
 	}
 }
  
-// Fragment function
 void fragment() {
 	// Calculate UV coordinates
-	vec2 uv = UV * uv_scale;
+	vec2 uv = UV * vec2(uv_scale_x, uv_scale_y);
  
 	// Revert affine texture mapping
 	if (affine_texture_mapping) {
