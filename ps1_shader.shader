@@ -11,7 +11,7 @@ uniform sampler2D albedo_texture: hint_default_black;
 uniform sampler2D specular_texture: hint_default_black;
 uniform sampler2D emission_texture: hint_default_black;
 
-// Amount to jitter vertices (0 = no jitter, 1 = maximum jitter
+// Amount to jitter vertices (0 = no jitter, 1 = maximum jitter)
 uniform float vertex_jitter_amount: hint_range(0.0, 1.0) = 0.5;
 
 // Whether or not to jitter the z coordinate
@@ -21,16 +21,13 @@ uniform bool jitter_z_coordinate = true;
 uniform bool jitter_depth_independent = true;
 
 // Whether or not to use affine texture mapping
-
 uniform bool affine_texture_mapping = true;
 
 // Alpha scissor threshold (0 = fully transparent, 1 = fully opaque)
 uniform float alpha_scissor_threshold: hint_range(0.0, 1.0) = 1.0;
 
-// UV_scale_x is used for scaling the U coordinates of the texture
+// UV scales for scaling the texture coordinates
 uniform float uv_scale_x: hint_range(0.0, 10.0) = 1.0;
-
-// UV_scale_y is used for scaling the V coordinates of the texture
 uniform float uv_scale_y: hint_range(0.0, 10.0) = 1.0;
  
 void vertex() {
