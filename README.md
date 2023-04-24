@@ -5,4 +5,4 @@ This repository contains:
 - A tank controller
 
 ## Notice
-This shader is a Spatial shader and is *not* CanvasItem compatible.
+The PS1 shader shader is a Spatial shader and is *not* CanvasItem compatible.
